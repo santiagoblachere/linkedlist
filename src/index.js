@@ -1,27 +1,56 @@
 import "./style.css";
 
-console.log("testasd");
-
 class LinkedList {
 	constructor() {
 		this.head = null;
 	}
-	append(value) {
-		const newNode = new Node();
-		newNode.value = value;
-		if (this.head === null) this.head = newNode;
-	}
 	prepend(value) {
-		const newNode = new Node();
-		newNode.value = value;
-		if (this.head !== null) {
-			newNode.nextNode = this.head.value;
+		const newNode = new Node(value);
+		let temporal = this.head || null;
+		if (temporal != null) {
+			this.head = newNode;
+			newNode.nextNode = temporal;
+		} else {
 			this.head = newNode;
 		}
 	}
+	append(value) {
+		if (this.head === null) this.prepend(value);
+		else {
+			let temp = this.head;
+			while (temp.nextNode != null) temp = temp.nextNode;
+			temp.nextNode = new Node(value);
+		}
+	}
+	size() {
+		let tmp = this.head;
+		let counter = 0;
+		while (tmp != null) {
+			counter++;
+			tmp = tmp.nextNode;
+		}
+		return counter;
+	}
+	getHeadNode() {
+		let headNode = this.head;
+		return headNode;
+	}
+	at(index) {
+		const total = this.size();
+		let nodeTravelDistance = total - index;
+		let temp = this.head;
+		let counter = total;
+		while (counter > nodeTravelDistance) {
+			counter--;
+			if (temp.nextNode == null) {
+				return "ERROR: NO SUCH NODE";
+			}
+			temp = temp.nextNode;
+		}
+
+		return temp;
+	}
 	/* 
-	size() {}
-	head() {}
 	at(index) {}
 	pop() {}
 	contains(value) {}
@@ -37,8 +66,16 @@ class Node {
 
 const list = new LinkedList();
 //  3 - 3
-list.append("3");
+list.prepend("4");
+list.prepend("5");
+list.prepend("6");
+list.prepend("7");
+list.append("23");
 
-list.append("3");
+// 7 6 5 4 23
+let size = list.size();
 
-console.log(list);
+let head = list.getHeadNode();
+
+let indexRandom = list.at(4);
+console.log(indexRandom);
