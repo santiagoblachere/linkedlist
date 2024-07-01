@@ -50,11 +50,46 @@ class LinkedList {
 
 		return temp;
 	}
-	/* 
-	at(index) {}
-	pop() {}
-	contains(value) {}
-    */
+	pop() {
+		let temp = this.head;
+		let dataSize = this.size();
+		for (let index = 1; index < dataSize - 1; index++) {
+			temp = temp.nextNode;
+		}
+		temp.nextNode = null;
+	}
+	contains(value) {
+		let temp = this.head;
+		while (temp.nextNode !== null) {
+			if (temp.value === value) return true;
+			temp = temp.nextNode;
+		}
+		return false;
+	}
+	find(value) {
+		let index = 0;
+		let temp = this.head;
+		while (temp.nextNode !== null) {
+			if (temp.value === value) return index;
+			if (temp.nextNode.value === value) return index + 1;
+			temp = temp.nextNode;
+			index++;
+		}
+		return null;
+	}
+	toString() {
+		let string = "";
+		let temp = this.head;
+		while (temp !== null) {
+			let thisNodeStringify = temp.value.toString();
+			if (string != "") string = string + "->" + thisNodeStringify;
+			else string = thisNodeStringify;
+			temp = temp.nextNode;
+		}
+		return string;
+	}
+	/* find(value) returns the index of the node containing value, or null if not found.
+toString represents your LinkedList objects as strings, so you can print them out and preview them in the console. The format should be: ( value ) -> ( value ) -> ( value ) -> nullz*/
 }
 
 class Node {
@@ -65,17 +100,20 @@ class Node {
 }
 
 const list = new LinkedList();
-//  3 - 3
 list.prepend("4");
 list.prepend("5");
 list.prepend("6");
 list.prepend("7");
 list.append("23");
-
 // 7 6 5 4 23
 let size = list.size();
-
+console.log(size); // 5
 let head = list.getHeadNode();
-
+console.log(head); // 7 node
 let indexRandom = list.at(4);
-console.log(indexRandom);
+console.log(indexRandom); // 23
+list.pop();
+// 7 6 5 4
+console.log(list.at(3)); // 4
+console.log(list.at(4)); // null (ERROR: NO SUCH NODE)
+console.log(list.toString()); // 7->6->5->4
